@@ -6,9 +6,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <router-link :to="{name: 'stocks'}">Stocks</router-link>
-                    </li>
+                    <router-link tag="li" active-class="active" :to="{name: 'stocks'}"><a>Stocks</a></router-link>
                 </ul>
                 <!--<p class="navbar-text navbar-right"><strong>Funds: $10.000</strong></p>-->
                 <!--<ul class="nav navbar-nav navbar-right">-->
