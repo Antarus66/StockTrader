@@ -1,7 +1,14 @@
 <template>
     <div class="container">
         <app-header></app-header>
-        <router-view></router-view>
+        <transition
+                enter-active-class="animated bounceInLeft"
+                leave-active-class="animated fade"
+                :duration="{ enter: 600, leave:200}"
+                mode="out-in"
+        >
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
