@@ -8,7 +8,7 @@
                 <ul class="nav navbar-nav">
                     <router-link tag="li" active-class="active" :to="{name: 'stocks'}"><a>Stocks</a></router-link>
                 </ul>
-                <!--<p class="navbar-text navbar-right"><strong>Funds: $10.000</strong></p>-->
+                <p class="navbar-text navbar-right"><strong>Funds: ${{ funds }}</strong></p>
                 <!--<ul class="nav navbar-nav navbar-right">-->
                     <!--<li><a href="../navbar-fixed-top/">End day</a></li>-->
                     <!--<li class="dropdown">-->
@@ -18,9 +18,6 @@
                             <!--<li><a href="#">Load</a></li>-->
                         <!--</ul>-->
                     <!--</li>-->
-                    <!--<li>-->
-
-                    <!--</li>-->
                 <!--</ul>-->
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -28,5 +25,11 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
 
+    export default {
+        computed: {
+            ...mapGetters(['funds'])
+        }
+    }
 </script>

@@ -7,7 +7,7 @@
                     <p>You may save and load your data</p>
                     <p>Click on "End day" to begin a new day</p>
                     <hr>
-                    <h3>Your funds: $10.000</h3>
+                    <h3>Your funds: ${{ funds }}</h3>
                 </div>
             </div>
         </div>
@@ -15,7 +15,11 @@
 </template>
 
 <script>
-    export default {
+    import { mapGetters } from 'vuex';
 
+    export default {
+        computed: {
+            ...mapGetters(['funds'])
+        }
     }
 </script>
