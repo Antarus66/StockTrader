@@ -8,7 +8,7 @@
                 <ul class="nav navbar-nav">
                     <router-link tag="li" active-class="active" :to="{name: 'stocks'}"><a>Stocks</a></router-link>
                 </ul>
-                <p class="navbar-text navbar-right"><strong>Funds: ${{ funds }}</strong></p>
+                <p class="navbar-text navbar-right"><strong>Funds: {{ funds | money }}</strong></p>
                 <!--<ul class="nav navbar-nav navbar-right">-->
                     <!--<li><a href="../navbar-fixed-top/">End day</a></li>-->
                     <!--<li class="dropdown">-->
@@ -26,10 +26,14 @@
 
 <script>
     import { mapGetters } from 'vuex';
+    import money from '../mixins/filters/money';
 
     export default {
         computed: {
             ...mapGetters(['funds'])
-        }
+        },
+        mixins: [
+            money
+        ]
     }
 </script>

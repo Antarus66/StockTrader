@@ -7,7 +7,7 @@
                     <p>You may save and load your data</p>
                     <p>Click on "End day" to begin a new day</p>
                     <hr>
-                    <h3>Your funds: ${{ funds }}</h3>
+                    <h3>Your funds: {{ funds | money }}</h3>
                 </div>
             </div>
         </div>
@@ -16,10 +16,14 @@
 
 <script>
     import { mapGetters } from 'vuex';
+    import money from '../mixins/filters/money';
 
     export default {
         computed: {
-            ...mapGetters(['funds'])
-        }
+            ...mapGetters(['funds']),
+        },
+        mixins: [
+            money
+        ]
     }
 </script>
