@@ -1,5 +1,5 @@
 import Home from "./components/Home.vue";
-import Stocks from "./components/Stocks.vue";
+import Stocks from "./components/stocks/Stocks.vue";
 
 export default [
     {
