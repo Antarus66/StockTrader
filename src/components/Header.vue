@@ -7,6 +7,7 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <router-link tag="li" active-class="active" :to="{name: 'stocks'}"><a>Stocks</a></router-link>
+                    <router-link tag="li" active-class="active" :to="{name: 'portfolio'}"><a>Portfolio</a></router-link>
                 </ul>
                 <p class="navbar-text navbar-right"><strong>Funds: {{ funds | money }}</strong></p>
                 <!--<ul class="nav navbar-nav navbar-right">-->
