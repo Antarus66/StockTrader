@@ -10,7 +10,7 @@
     import { createNamespacedHelpers } from 'vuex';
     import Stock from "./Stock.vue";
 
-    const { mapGetters } = createNamespacedHelpers("user");
+    const { mapGetters } = createNamespacedHelpers("portfolio");
 
     export default {
         components: {

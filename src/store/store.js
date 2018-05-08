@@ -37,7 +37,7 @@ export const store = new Vuex.Store({
                 stocks: state => state.stocks
             }
         },
-        user: {
+        portfolio: {
             namespaced: true,
             state: {
                 stocks: [
