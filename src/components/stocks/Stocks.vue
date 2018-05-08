@@ -7,8 +7,10 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { createNamespacedHelpers } from 'vuex';
     import Stock from "./Stock.vue";
+
+    const { mapGetters } = createNamespacedHelpers("stockMarket");
 
     export default {
         components: {
