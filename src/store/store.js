@@ -4,12 +4,6 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-    state: {
-        funds: 10000 // todo: move to the user module
-    },
-    getters :{
-        funds: state => state.funds
-    },
     modules: {
         stockMarket: {
             namespaced: true,
@@ -40,6 +34,7 @@ export const store = new Vuex.Store({
         portfolio: {
             namespaced: true,
             state: {
+                funds: 10000,
                 stocks: [
                     {
                         title: "BMW",
@@ -54,7 +49,8 @@ export const store = new Vuex.Store({
                 ]
             },
             getters: {
-                stocks: state => state.stocks
+                stocks: state => state.stocks,
+                funds: state => state.funds
             }
         }
     }

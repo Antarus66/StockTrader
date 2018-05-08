@@ -20,7 +20,7 @@
 
     export default {
         computed: {
-            ...mapGetters(['funds']),
+            ...mapGetters('portfolio', ['funds']),
         },
         mixins: [
             money
