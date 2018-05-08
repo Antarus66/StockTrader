@@ -7,33 +7,15 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
     import Stock from "./Stock.vue";
 
     export default {
         components: {
             appStock: Stock
         },
-        data() {
-            return {
-                stocks: [
-                    {
-                        title: "BMW",
-                        price: 110
-                    },
-                    {
-                        title: "Google",
-                        price: 110
-                    },
-                    {
-                        title: "Twitter",
-                        price: 110
-                    },
-                    {
-                        title: "Apple",
-                        price: 110
-                    },
-                ]
-            };
-        }
+        computed: {
+            ...mapGetters(['stocks']),
+        },
     }
 </script>
