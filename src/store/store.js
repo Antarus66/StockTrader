@@ -8,27 +8,34 @@ export const store = new Vuex.Store({
         stockMarket: {
             namespaced: true,
             state: {
-                stocks: [
+                stocksTypes: [
                     {
+                        id: 1,
                         title: "BMW",
                         price: 110
                     },
                     {
+                        id: 2,
                         title: "Google",
-                        price: 110
+                        price: 120
                     },
                     {
+                        id: 3,
                         title: "Twitter",
-                        price: 110
+                        price: 130
                     },
                     {
+                        id: 4,
                         title: "Apple",
-                        price: 110
+                        price: 140
                     },
                 ]
             },
             getters: {
-                stocks: state => state.stocks
+                stocksTypes: state => state.stocksTypes,
+                stockTypeById: state => id => {
+                    return state.stocksTypes.find(item => item.id == id);
+                }
             }
         },
         portfolio: {
@@ -37,20 +44,30 @@ export const store = new Vuex.Store({
                 funds: 10000,
                 stocks: [
                     {
-                        title: "BMW",
-                        price: 110,
+                        id: 1,
+                        stockTypeId: 1,
                         quantity: 10
                     },
                     {
-                        title: "Google",
-                        price: 110,
+                        id: 2,
+                        stockTypeId: 2,
                         quantity: 20
                     }
                 ]
             },
             getters: {
+                funds: state => state.funds,
                 stocks: state => state.stocks,
-                funds: state => state.funds
+                stocksWithTypes: (state, getters, rootState, rootGetters) => {
+                    const stocks = getters.stocks;
+
+                    stocks.forEach(stock => {
+                        const getter = rootGetters["stockMarket/stockTypeById"];
+                        stock.stockType = getter(stock.stockTypeId);
+                    });
+
+                    return stocks;
+                }
             }
         }
     }

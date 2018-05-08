@@ -1,8 +1,8 @@
 <template>
     <div class="panel panel-success">
         <div class="panel-heading">
-            <span class="panel-title stock-title">{{ stock.title }}</span>
-            <span class="stock-price">(Price: {{ stock.price }} | Quantity: {{ stock.quantity }})</span>
+            <span class="panel-title stock-title">{{ stock.stockType.title }}</span>
+            <span class="stock-price">(Price: {{ stock.stockType.price }} | Quantity: {{ stock.quantity }})</span>
         </div>
         <div class="panel-body">
             Some info
