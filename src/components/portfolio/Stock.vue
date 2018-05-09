@@ -15,7 +15,7 @@
                 </div>
                 <button type="submit"
                         class="btn btn-primary"
-                        :disabled="!quantityToSell"
+                        :disabled="quantityToSell <= 0"
                         @click.prevent="sell"
                 >Sell</button>
             </form>
@@ -43,7 +43,7 @@
         methods: {
             ...mapActions(["sellStocks"]),
             sell() {
-                if (!this.quantityToSell) {
+                if (this.quantityToSell <= 0) {
                     return;
                 }
 

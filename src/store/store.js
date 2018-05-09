@@ -87,6 +87,28 @@ export const store = new Vuex.Store({
                     }
 
                     state.funds += sum;
+                },
+                buyStocks(state, { stockTypeId, quantity, sum }) {
+                    if (state.funds < sum) {
+                        throw new Error("Unsufficient funds");
+                    }
+
+                    let stocksOfThisType = state.stocks.find(item => item.stockTypeId === stockTypeId);
+
+                    if (!stocksOfThisType) {
+                        const nextId = state.stocks.length + 1;
+
+                        state.stocks.push({
+                            id: nextId,
+                            stockTypeId: stockTypeId,
+                            quantity: 0
+                        });
+
+                        stocksOfThisType = state.stocks.find(item => item.stockTypeId === stockTypeId);
+                    }
+
+                    stocksOfThisType.quantity += quantity;
+                    state.funds -= sum;
                 }
             },
             actions: {
@@ -97,6 +119,17 @@ export const store = new Vuex.Store({
 
                     context.commit("sellStocks", {
                         stocksId,
+                        quantity,
+                        sum
+                    });
+                },
+                buyStocks(context, {stockTypeId, quantity})
+                {
+                    const stocksType = context.rootGetters["stockMarket/stockTypeById"](stockTypeId);
+                    const sum = quantity * stocksType.price;
+
+                    context.commit("buyStocks", {
+                        stockTypeId,
                         quantity,
                         sum
                     });
