@@ -70,23 +70,22 @@ export const store = new Vuex.Store({
                 }
             },
             mutations: {
-                putOutStocks(state, payload) {
-                    const stock = state.stocks.find(item => item.id === payload.stocksId);
+                sellStocks(state, { stocksId, quantity, sum }) {
+                    const stock = state.stocks.find(item => item.id === stocksId);
 
                     if (!stock) {
                         throw new Error("Unknown stocks id.");
-                    } else if (stock.quantity < payload.quantity) {
+                    } else if (stock.quantity < quantity) {
                         throw new Error("Unsufficient stocks number.");
                     }
 
-                    stock.quantity -= payload.quantity;
+                    stock.quantity -= quantity;
 
                     if (stock.quantity === 0) {
-                        const stockIndex = state.stocks.findIndex(item => item.id === payload.stocksId);
+                        const stockIndex = state.stocks.findIndex(item => item.id === stocksId);
                         state.stocks.splice(stockIndex, 1);
                     }
-                },
-                increaseFunds(state, sum) {
+
                     state.funds += sum;
                 }
             },
@@ -96,12 +95,11 @@ export const store = new Vuex.Store({
                     const stock = stocks.find(item => item.id === stocksId);
                     const sum = quantity * stock.stockType.price;
 
-                    context.commit("putOutStocks", {
+                    context.commit("sellStocks", {
                         stocksId,
-                        quantity
+                        quantity,
+                        sum
                     });
-
-                    context.commit("increaseFunds", sum);
                 }
             }
         }
