@@ -13,11 +13,11 @@ export const store = new Vuex.Store({
         rewriteStockTypes(context) {
             const stocksTypes = context.getters["stockMarket/stocksTypes"];
 
-            Vue.http.delete("https://stock-trader-b3fb6.firebaseio.com/stocksTypes.json")
+            Vue.http.delete("stocksTypes.json")
                 .then(response => {
                     console.log("Removed.");
 
-                    Vue.http.post("https://stock-trader-b3fb6.firebaseio.com/stocksTypes.json", stocksTypes)
+                    Vue.http.post("stocksTypes.json", stocksTypes)
                         .then(response => {
                             console.log('stockTypes are saved');
                         }, error => {
@@ -28,11 +28,11 @@ export const store = new Vuex.Store({
         rewriteFunds(context) {
             const funds = context.getters["portfolio/funds"];
 
-            Vue.http.delete("https://stock-trader-b3fb6.firebaseio.com/funds.json")
+            Vue.http.delete("funds.json")
                 .then(response => {
                     console.log("Removed.");
 
-                    Vue.http.post("https://stock-trader-b3fb6.firebaseio.com/funds.json", funds)
+                    Vue.http.post("funds.json", funds)
                         .then(response => {
                             console.log('funds are saved');
                         }, error => {
@@ -43,11 +43,11 @@ export const store = new Vuex.Store({
         rewriteStocks(context) {
             const stocks = context.getters["portfolio/stocks"];
 
-            Vue.http.delete("https://stock-trader-b3fb6.firebaseio.com/stocks.json")
+            Vue.http.delete("stocks.json")
                 .then(response => {
                     console.log("Removed.");
 
-                    Vue.http.post("https://stock-trader-b3fb6.firebaseio.com/stocks.json", stocks)
+                    Vue.http.post("stocks.json", stocks)
                         .then(response => {
                             console.log('stocks are saved');
                         }, error => {
@@ -61,7 +61,7 @@ export const store = new Vuex.Store({
             context.dispatch("loadStocks");
         },
         loadStockTypes(context) {
-            Vue.http.get("https://stock-trader-b3fb6.firebaseio.com/stocksTypes.json")
+            Vue.http.get("stocksTypes.json")
                 .then(response => response.json())
                 .then(data => Object.values(data)[0])
                 .then(values => {
@@ -71,7 +71,7 @@ export const store = new Vuex.Store({
                 });
         },
         loadFunds(context) {
-            Vue.http.get("https://stock-trader-b3fb6.firebaseio.com/funds.json")
+            Vue.http.get("funds.json")
                 .then(response => response.json())
                 .then(data => Object.values(data)[0])
                 .then(value => {
@@ -79,7 +79,7 @@ export const store = new Vuex.Store({
                 });
         },
         loadStocks(context) {
-            Vue.http.get("https://stock-trader-b3fb6.firebaseio.com/stocks.json")
+            Vue.http.get("stocks.json")
                 .then(response => response.json())
                 .then(data => Object.values(data)[0])
                 .then(values => {
