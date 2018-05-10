@@ -10,8 +10,9 @@
                     <router-link tag="li" active-class="active" :to="{name: 'portfolio'}"><a>Portfolio</a></router-link>
                 </ul>
                 <p class="navbar-text navbar-right"><strong>Funds: {{ funds | money }}</strong></p>
-                <!--<ul class="nav navbar-nav navbar-right">-->
+                <ul class="nav navbar-nav navbar-right">
                     <!--<li><a href="../navbar-fixed-top/">End day</a></li>-->
+                    <li><a href="#" @click="save">Save</a></li>
                     <!--<li class="dropdown">-->
                         <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Save & Load<span class="caret"></span></a>-->
                         <!--<ul class="dropdown-menu">-->
@@ -19,19 +20,22 @@
                             <!--<li><a href="#">Load</a></li>-->
                         <!--</ul>-->
                     <!--</li>-->
-                <!--</ul>-->
+                </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
     </nav>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
     import money from '../mixins/filters/money';
 
     export default {
         computed: {
             ...mapGetters('portfolio', ['funds'])
+        },
+        methods: {
+            ...mapActions(['save'])
         },
         mixins: [
             money

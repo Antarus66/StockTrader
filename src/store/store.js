@@ -4,6 +4,58 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+    actions: {
+        save(context) {
+            context.dispatch("rewriteStockTypes");
+            context.dispatch("rewriteFunds");
+            context.dispatch("rewriteStocks");
+        },
+        rewriteStockTypes(context) {
+            const stocksTypes = context.getters["stockMarket/stocksTypes"];
+
+            Vue.http.delete("https://stock-trader-b3fb6.firebaseio.com/stocksTypes.json")
+                .then(response => {
+                    console.log("Removed.");
+
+                    Vue.http.post("https://stock-trader-b3fb6.firebaseio.com/stocksTypes.json", stocksTypes)
+                        .then(response => {
+                            console.log('stockTypes are saved');
+                        }, error => {
+                            console.error(error);
+                        });
+                });
+        },
+        rewriteFunds(context) {
+            const funds = context.getters["portfolio/funds"];
+
+            Vue.http.delete("https://stock-trader-b3fb6.firebaseio.com/funds.json")
+                .then(response => {
+                    console.log("Removed.");
+
+                    Vue.http.post("https://stock-trader-b3fb6.firebaseio.com/funds.json", funds)
+                        .then(response => {
+                            console.log('funds are saved');
+                        }, error => {
+                            console.error(error);
+                        });
+                });
+        },
+        rewriteStocks(context) {
+            const stocks = context.getters["portfolio/stocks"];
+
+            Vue.http.delete("https://stock-trader-b3fb6.firebaseio.com/stocks.json")
+                .then(response => {
+                    console.log("Removed.");
+
+                    Vue.http.post("https://stock-trader-b3fb6.firebaseio.com/stocks.json", stocks)
+                        .then(response => {
+                            console.log('stocks are saved');
+                        }, error => {
+                            console.error(error);
+                        });
+                });
+        }
+    },
     modules: {
         stockMarket: {
             namespaced: true,
@@ -61,12 +113,17 @@ export const store = new Vuex.Store({
                 stocksWithTypes(state, getters, rootState, rootGetters) {
                     const stocks = getters.stocks;
 
-                    stocks.forEach(stock => {
+                    const stocksWithTypes = stocks.map(stock => {
                         const getter = rootGetters["stockMarket/stockTypeById"];
-                        stock.stockType = getter(stock.stockTypeId);
+                        const stockType = getter(stock.stockTypeId);
+
+                        return {
+                            ...stock,
+                            stockType
+                        };
                     });
 
-                    return stocks;
+                    return stocksWithTypes;
                 }
             },
             mutations: {
