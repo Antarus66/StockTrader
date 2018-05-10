@@ -54,6 +54,39 @@ export const store = new Vuex.Store({
                             console.error(error);
                         });
                 });
+        },
+        load(context) {
+            context.dispatch("loadStockTypes");
+            context.dispatch("loadFunds");
+            context.dispatch("loadStocks");
+        },
+        loadStockTypes(context) {
+            Vue.http.get("https://stock-trader-b3fb6.firebaseio.com/stocksTypes.json")
+                .then(response => response.json())
+                .then(data => Object.values(data)[0])
+                .then(values => {
+                    if (values) {
+                        context.commit("stockMarket/setStockTypes", values);
+                    }
+                });
+        },
+        loadFunds(context) {
+            Vue.http.get("https://stock-trader-b3fb6.firebaseio.com/funds.json")
+                .then(response => response.json())
+                .then(data => Object.values(data)[0])
+                .then(value => {
+                    context.commit("portfolio/setFunds", value);
+                });
+        },
+        loadStocks(context) {
+            Vue.http.get("https://stock-trader-b3fb6.firebaseio.com/stocks.json")
+                .then(response => response.json())
+                .then(data => Object.values(data)[0])
+                .then(values => {
+                    if (values) {
+                        context.commit("portfolio/setStocks", values);
+                    }
+                })
         }
     },
     modules: {
@@ -87,6 +120,11 @@ export const store = new Vuex.Store({
                 stocksTypes: state => state.stocksTypes,
                 stockTypeById: state => id => {
                     return state.stocksTypes.find(item => item.id == id);
+                }
+            },
+            mutations: {
+                setStockTypes(state, values) {
+                    state.stocksTypes = values;
                 }
             }
         },
@@ -166,6 +204,12 @@ export const store = new Vuex.Store({
 
                     stocksOfThisType.quantity += quantity;
                     state.funds -= sum;
+                },
+                setFunds(state, funds) {
+                    state.funds = funds;
+                },
+                setStocks(state, values) {
+                    state.stocks = values;
                 }
             },
             actions: {

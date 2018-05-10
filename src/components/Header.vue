@@ -13,6 +13,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!--<li><a href="../navbar-fixed-top/">End day</a></li>-->
                     <li><a href="#" @click="save">Save</a></li>
+                    <li><a href="#" @click="load">Load</a></li>
                     <!--<li class="dropdown">-->
                         <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Save & Load<span class="caret"></span></a>-->
                         <!--<ul class="dropdown-menu">-->
@@ -35,7 +36,10 @@
             ...mapGetters('portfolio', ['funds'])
         },
         methods: {
-            ...mapActions(['save'])
+            ...mapActions([
+                'save',
+                'load'
+            ])
         },
         mixins: [
             money
