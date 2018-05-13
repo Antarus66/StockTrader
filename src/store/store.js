@@ -74,7 +74,7 @@ export const store = new Vuex.Store({
                 });
         },
         loadFunds(context) {
-            FundsResource.get("funds.json")
+            FundsResource.get()
                 .then(response => response.json())
                 .then(data => Object.values(data)[0])
                 .then(value => {
@@ -82,7 +82,7 @@ export const store = new Vuex.Store({
                 });
         },
         loadStocks(context) {
-            StocksResource.get("stocks.json")
+            StocksResource.get()
                 .then(response => response.json())
                 .then(data => Object.values(data)[0])
                 .then(values => {
