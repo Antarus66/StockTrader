@@ -1,5 +1,5 @@
 <template>
-    <div class="panel panel-success">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <span class="panel-title stock-title">{{ stock.stockType.title }}</span>
             <span class="stock-price">(Price: {{ stock.stockType.price }} | Quantity: {{ stock.quantity }})</span>
