@@ -6,13 +6,14 @@
         </div>
         <div class="panel-body">
             <form class="form-inline">
-                <div class="form-group">
+                <div class="form-group" :class="{'has-error': insufficientStocks}">
                     <input type="number"
                            class="form-control"
                            placeholder="Quantity"
                            v-on:keyup.enter="submit"
                            @input="quantityToSell = parseInt($event.target.value)">
                 </div>
+                <span class="total-price">{{ totalPrice | money}}</span>
                 <button type="submit"
                         class="btn btn-primary"
                         :disabled="quantityToSell <= 0"
@@ -25,6 +26,7 @@
 
 <script>
     import { createNamespacedHelpers } from 'vuex';
+    import money from '../../mixins/filters/money';
 
     const { mapActions } = createNamespacedHelpers("portfolio");
 
@@ -40,6 +42,14 @@
                 quantityToSell: 0
             };
         },
+        computed: {
+            totalPrice() {
+                return this.stock.stockType.price * this.quantityToSell;
+            },
+            insufficientStocks() {
+                return this.quantityToSell > this.stock.quantity
+            }
+        },
         methods: {
             ...mapActions(["sellStocks"]),
             sell() {
@@ -52,7 +62,10 @@
                     quantity: this.quantityToSell
                 });
             }
-        }
+        },
+        mixins: [
+            money
+        ]
     }
 </script>
 
@@ -67,5 +80,9 @@
 
     button {
         float: right;
+    }
+
+    .has-error input {
+        color: darkred;
     }
 </style>
