@@ -12,10 +12,11 @@
                            placeholder="Quantity"
                            v-on:keyup.enter="submit"
                            @input="quantityToBuy = parseInt($event.target.value)">
+                    <span class="total-price" :class="{error: insufficientFunds}">{{ totalPrice | money}}</span>
                 </div>
                 <button type="submit"
                         class="btn btn-primary"
-                        :disabled="quantityToBuy <= 0"
+                        :disabled="quantityToBuy <= 0 || insufficientFunds"
                         @click.prevent="buy"
                 >Buy</button>
             </form>
@@ -25,8 +26,9 @@
 
 <script>
     import { createNamespacedHelpers } from 'vuex';
+    import money from '../../mixins/filters/money';
 
-    const { mapActions } = createNamespacedHelpers("portfolio");
+    const { mapActions, mapGetters } = createNamespacedHelpers("portfolio");
 
     export default {
         props: {
@@ -38,6 +40,15 @@
         data() {
             return {
                 quantityToBuy: 0
+            }
+        },
+        computed: {
+            ...mapGetters(["funds"]),
+            totalPrice() {
+                return this.stock.price * this.quantityToBuy;
+            },
+            insufficientFunds() {
+                return  this.totalPrice > this.funds;
             }
         },
         methods: {
@@ -52,7 +63,10 @@
                     quantity: this.quantityToBuy
                 });
             }
-        }
+        },
+        mixins: [
+            money
+        ]
     }
 </script>
 
@@ -64,4 +78,13 @@
     .stock-price {
         font-size: 14px;
     }
+
+    .total-price {
+        margin-left: 10px;
+    }
+
+    .total-price.error {
+        color: darkred;
+    }
+
 </style>
