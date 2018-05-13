@@ -1,19 +1,10 @@
+import { funds, stocks } from "./../../data/portfolio"
+
 export default {
     namespaced: true,
     state: {
-        funds: 10000,
-        stocks: [
-            {
-                id: 1,
-                stockTypeId: 1,
-                quantity: 10
-            },
-            {
-                id: 2,
-                stockTypeId: 2,
-                quantity: 20
-            }
-        ]
+        funds,
+        stocks
     },
     getters: {
         funds: state => state.funds,
