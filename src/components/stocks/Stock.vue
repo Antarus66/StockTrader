@@ -54,7 +54,7 @@
         methods: {
             ...mapActions(["buyStocks"]),
             buy() {
-                if (this.quantityToBuy <= 0) {
+                if (this.quantityToBuy <= 0 || this.insufficientFunds) {
                     return;
                 }
 
