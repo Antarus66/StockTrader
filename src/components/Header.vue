@@ -12,8 +12,13 @@
                 <p class="navbar-text navbar-right"><strong>Funds: {{ funds | money }}</strong></p>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#" @click="endDay">End day</a></li>
-                    <li><a href="#" @click="save">Save</a></li>
-                    <li><a href="#" @click="load">Load</a></li>
+                    <li class="dropdown" :class="{open: dropdownOpened}" @click="dropdownOpened = !dropdownOpened">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Save & Load<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" @click="save">Save</a></li>
+                            <li><a href="#" @click="load">Load</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -25,6 +30,11 @@
     import money from '../mixins/filters/money';
 
     export default {
+        data() {
+            return {
+                dropdownOpened: false
+            };
+        },
         computed: {
             ...mapGetters('portfolio', ['funds'])
         },
