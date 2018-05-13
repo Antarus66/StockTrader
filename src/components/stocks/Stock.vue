@@ -12,8 +12,8 @@
                            placeholder="Quantity"
                            v-on:keyup.enter="submit"
                            @input="quantityToBuy = parseInt($event.target.value)">
-                    <span class="total-price" :class="{error: insufficientFunds}">{{ totalPrice | money}}</span>
                 </div>
+                <span class="total-price" :class="{error: insufficientFunds}">{{ totalPrice | money}}</span>
                 <button type="submit"
                         class="btn btn-primary"
                         :disabled="quantityToBuy <= 0 || insufficientFunds"
