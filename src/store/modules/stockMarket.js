@@ -25,7 +25,11 @@ export default {
         ]
     },
     getters: {
-        stocksTypes: state => state.stocksTypes,
+        stocksTypes: state => {
+            return  state.stocksTypes.map(item => {
+                return {...item};
+            });
+        },
         stockTypeById: state => id => {
             return state.stocksTypes.find(item => item.id == id);
         }
@@ -33,6 +37,21 @@ export default {
     mutations: {
         setStockTypes(state, values) {
             state.stocksTypes = values;
+        }
+    },
+    actions: {
+        randomizePrices(context) {
+            const stockTypes = context.getters.stocksTypes;
+            const getRandomInt = function (min, max) {
+                return Math.ceil(Math.random() * (++max - min)) + min;
+            };
+
+            for (let stockType of stockTypes) {
+                const changeLimit = Math.floor(stockType.price * 0.3);
+                stockType.price += getRandomInt(-changeLimit, changeLimit);
+            }
+
+            context.commit("setStockTypes", stockTypes);
         }
     }
 };

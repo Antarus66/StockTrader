@@ -11,7 +11,7 @@
                 </ul>
                 <p class="navbar-text navbar-right"><strong>Funds: {{ funds | money }}</strong></p>
                 <ul class="nav navbar-nav navbar-right">
-                    <!--<li><a href="../navbar-fixed-top/">End day</a></li>-->
+                    <li><a href="#" @click="endDay">End day</a></li>
                     <li><a href="#" @click="save">Save</a></li>
                     <li><a href="#" @click="load">Load</a></li>
                 </ul>
@@ -32,7 +32,10 @@
             ...mapActions([
                 'save',
                 'load'
-            ])
+            ]),
+            ...mapActions({
+                endDay: 'stockMarket/randomizePrices'
+            })
         },
         mixins: [
             money
