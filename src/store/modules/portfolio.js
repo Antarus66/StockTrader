@@ -3,8 +3,8 @@ import { funds, stocks } from "./../../data/portfolio"
 export default {
     namespaced: true,
     state: {
-        funds,
-        stocks
+        funds: 0,
+        stocks: []
     },
     getters: {
         funds: state => state.funds,
@@ -74,6 +74,12 @@ export default {
         }
     },
     actions: {
+        initFunds({ commit }) {
+            commit("setFunds", funds);
+        },
+        initStocks({ commit }) {
+            commit("setStocks", stocks);
+        },
         sellStocks(context, { stocksId, quantity }) {
             const stocks = context.getters.stocksWithTypes;
             const stock = stocks.find(item => item.id === stocksId);

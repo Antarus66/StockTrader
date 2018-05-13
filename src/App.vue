@@ -21,6 +21,8 @@
         },
         created() {
             this.$store.dispatch("stockMarket/initStockTypes");
+            this.$store.dispatch("portfolio/initFunds");
+            this.$store.dispatch("portfolio/initStocks");
         }
     }
 </script>
