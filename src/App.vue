@@ -18,6 +18,9 @@
     export default {
         components: {
             appHeader: Header
+        },
+        created() {
+            this.$store.dispatch("stockMarket/initStockTypes");
         }
     }
 </script>

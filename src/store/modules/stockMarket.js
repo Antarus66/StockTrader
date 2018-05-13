@@ -3,7 +3,7 @@ import { stocksTypes } from "./../../data/stocks"
 export default {
     namespaced: true,
     state: {
-        stocksTypes
+        stocksTypes: []
     },
     getters: {
         stocksTypes: state => {
@@ -21,6 +21,9 @@ export default {
         }
     },
     actions: {
+        initStockTypes({ commit }) {
+            commit("setStockTypes", stocksTypes);
+        },
         randomizePrices(context) {
             const stockTypes = context.getters.stocksTypes;
             const getRandomInt = function (min, max) {
