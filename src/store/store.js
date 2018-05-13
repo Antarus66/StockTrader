@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import stockMarketModule from './modules/stockMarket';
+import portfolioModule from './modules/portfolio';
+import { FundsResource, StockTypesResource, StocksResource } from "./../resources";
 
 Vue.use(Vuex);
 
@@ -13,11 +16,11 @@ export const store = new Vuex.Store({
         rewriteStockTypes(context) {
             const stocksTypes = context.getters["stockMarket/stocksTypes"];
 
-            Vue.http.delete("stocksTypes.json")
+            StockTypesResource.delete()
                 .then(response => {
                     console.log("Removed.");
 
-                    Vue.http.post("stocksTypes.json", stocksTypes)
+                    StockTypesResource.save({}, stocksTypes)
                         .then(response => {
                             console.log('stockTypes are saved');
                         }, error => {
@@ -28,11 +31,11 @@ export const store = new Vuex.Store({
         rewriteFunds(context) {
             const funds = context.getters["portfolio/funds"];
 
-            Vue.http.delete("funds.json")
+            FundsResource.delete()
                 .then(response => {
                     console.log("Removed.");
 
-                    Vue.http.post("funds.json", funds)
+                    FundsResource.save({}, funds)
                         .then(response => {
                             console.log('funds are saved');
                         }, error => {
@@ -43,11 +46,11 @@ export const store = new Vuex.Store({
         rewriteStocks(context) {
             const stocks = context.getters["portfolio/stocks"];
 
-            Vue.http.delete("stocks.json")
+            StocksResource.delete()
                 .then(response => {
                     console.log("Removed.");
 
-                    Vue.http.post("stocks.json", stocks)
+                    StocksResource.save({}, stocks)
                         .then(response => {
                             console.log('stocks are saved');
                         }, error => {
@@ -90,152 +93,7 @@ export const store = new Vuex.Store({
         }
     },
     modules: {
-        stockMarket: {
-            namespaced: true,
-            state: {
-                stocksTypes: [
-                    {
-                        id: 1,
-                        title: "BMW",
-                        price: 110
-                    },
-                    {
-                        id: 2,
-                        title: "Google",
-                        price: 120
-                    },
-                    {
-                        id: 3,
-                        title: "Twitter",
-                        price: 130
-                    },
-                    {
-                        id: 4,
-                        title: "Apple",
-                        price: 140
-                    },
-                ]
-            },
-            getters: {
-                stocksTypes: state => state.stocksTypes,
-                stockTypeById: state => id => {
-                    return state.stocksTypes.find(item => item.id == id);
-                }
-            },
-            mutations: {
-                setStockTypes(state, values) {
-                    state.stocksTypes = values;
-                }
-            }
-        },
-        portfolio: {
-            namespaced: true,
-            state: {
-                funds: 10000,
-                stocks: [
-                    {
-                        id: 1,
-                        stockTypeId: 1,
-                        quantity: 10
-                    },
-                    {
-                        id: 2,
-                        stockTypeId: 2,
-                        quantity: 20
-                    }
-                ]
-            },
-            getters: {
-                funds: state => state.funds,
-                stocks: state => state.stocks,
-                stocksWithTypes(state, getters, rootState, rootGetters) {
-                    const stocks = getters.stocks;
-
-                    const stocksWithTypes = stocks.map(stock => {
-                        const getter = rootGetters["stockMarket/stockTypeById"];
-                        const stockType = getter(stock.stockTypeId);
-
-                        return {
-                            ...stock,
-                            stockType
-                        };
-                    });
-
-                    return stocksWithTypes;
-                }
-            },
-            mutations: {
-                sellStocks(state, { stocksId, quantity, sum }) {
-                    const stock = state.stocks.find(item => item.id === stocksId);
-
-                    if (!stock) {
-                        throw new Error("Unknown stocks id.");
-                    } else if (stock.quantity < quantity) {
-                        throw new Error("Unsufficient stocks number.");
-                    }
-
-                    stock.quantity -= quantity;
-
-                    if (stock.quantity === 0) {
-                        const stockIndex = state.stocks.findIndex(item => item.id === stocksId);
-                        state.stocks.splice(stockIndex, 1);
-                    }
-
-                    state.funds += sum;
-                },
-                buyStocks(state, { stockTypeId, quantity, sum }) {
-                    if (state.funds < sum) {
-                        throw new Error("Unsufficient funds");
-                    }
-
-                    let stocksOfThisType = state.stocks.find(item => item.stockTypeId === stockTypeId);
-
-                    if (!stocksOfThisType) {
-                        const nextId = state.stocks.length + 1;
-
-                        state.stocks.push({
-                            id: nextId,
-                            stockTypeId: stockTypeId,
-                            quantity: 0
-                        });
-
-                        stocksOfThisType = state.stocks.find(item => item.stockTypeId === stockTypeId);
-                    }
-
-                    stocksOfThisType.quantity += quantity;
-                    state.funds -= sum;
-                },
-                setFunds(state, funds) {
-                    state.funds = funds;
-                },
-                setStocks(state, values) {
-                    state.stocks = values;
-                }
-            },
-            actions: {
-                sellStocks(context, { stocksId, quantity }) {
-                    const stocks = context.getters.stocksWithTypes;
-                    const stock = stocks.find(item => item.id === stocksId);
-                    const sum = quantity * stock.stockType.price;
-
-                    context.commit("sellStocks", {
-                        stocksId,
-                        quantity,
-                        sum
-                    });
-                },
-                buyStocks(context, {stockTypeId, quantity})
-                {
-                    const stocksType = context.rootGetters["stockMarket/stockTypeById"](stockTypeId);
-                    const sum = quantity * stocksType.price;
-
-                    context.commit("buyStocks", {
-                        stockTypeId,
-                        quantity,
-                        sum
-                    });
-                }
-            }
-        }
+        stockMarket: stockMarketModule,
+        portfolio: portfolioModule
     }
 });
