@@ -16,7 +16,7 @@
                 <span class="total-price">{{ totalPrice | money}}</span>
                 <button type="submit"
                         class="btn btn-primary"
-                        :disabled="quantityToSell <= 0"
+                        :disabled="quantityToSell <= 0 || insufficientStocks"
                         @click.prevent="sell"
                 >Sell</button>
             </form>
