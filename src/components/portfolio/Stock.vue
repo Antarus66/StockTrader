@@ -53,7 +53,7 @@
         methods: {
             ...mapActions(["sellStocks"]),
             sell() {
-                if (this.quantityToSell <= 0) {
+                if (this.quantityToSell <= 0 || this.insufficientStocks) {
                     return;
                 }
 
