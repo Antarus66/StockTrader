@@ -64,7 +64,7 @@ export const store = new Vuex.Store({
             context.dispatch("loadStocks");
         },
         loadStockTypes(context) {
-            Vue.http.get("stocksTypes.json")
+            StockTypesResource.get()
                 .then(response => response.json())
                 .then(data => Object.values(data)[0])
                 .then(values => {
@@ -74,7 +74,7 @@ export const store = new Vuex.Store({
                 });
         },
         loadFunds(context) {
-            Vue.http.get("funds.json")
+            FundsResource.get("funds.json")
                 .then(response => response.json())
                 .then(data => Object.values(data)[0])
                 .then(value => {
@@ -82,7 +82,7 @@ export const store = new Vuex.Store({
                 });
         },
         loadStocks(context) {
-            Vue.http.get("stocks.json")
+            StocksResource.get("stocks.json")
                 .then(response => response.json())
                 .then(data => Object.values(data)[0])
                 .then(values => {
