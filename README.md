@@ -2,8 +2,8 @@
 
 > A training Vue.js project of the Udemy course: 
 
-https://www.udemy.com/vuejs-2-the-complete-guide/ 
-https://www.udemy.com/certificate/UC-A632J7OK/
+- https://www.udemy.com/vuejs-2-the-complete-guide/ 
+- https://www.udemy.com/certificate/UC-A632J7OK/
 
 ## Build Setup
 
